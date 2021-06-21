@@ -210,6 +210,15 @@ class CodeBox(tk.Text):
             warnings.warn(f"Bad language specifier: '{lang}', falling back to Python. See 'CodeBox.languages' for a list of supported languages.")
         
         self.event_generate("<<CodeBoxLanguageChanged>>")
+
+    @property
+    def content(self):
+        return self.get("1.0", "end")
+    
+    @content.setter
+    def content(self, new_content):
+        self.delete("1.0", "end")
+        self.insert("1.0", new_content)
     
     @property
     def current_line(self) -> int:
@@ -257,6 +266,14 @@ class CodeBox(tk.Text):
     @language.setter
     def language(self, language):
         self.update_lexer(language)
+
+    @property
+    def font_family(self):
+        return self.font.actual("family")
+    
+    @font_family.setter
+    def font_family(self, family):
+        self.font.config(family=family)
         
     @property
     def font_size(self):

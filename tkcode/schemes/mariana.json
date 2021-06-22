@@ -8,11 +8,13 @@
     	"inactiveselectbackground": "#4e5a65"
     },
     
+    
     "selection":
     {
     	"background": "#4e5a65",
     	"foreground": "#d8dee9"
     },
+    
 
     "syntax":
     {
@@ -22,10 +24,7 @@
         "Token.Whitespace": "#d8dee9",
         "Token.Escape": "#d8dee9",
         
-        "Token.Keyword":
-        {
-            "foreground": "#c695c6"
-        },
+        "Token.Keyword": "#c695c6",
         "Token.Keyword.Constant": "#c695c6",
         "Token.Keyword.Declaration": "#c695c6",
         "Token.Keyword.Namespace": "#c695c6",

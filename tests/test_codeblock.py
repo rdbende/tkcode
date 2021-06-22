@@ -1,9 +1,9 @@
-import unittest
-from sys import path
-print(path)
-from tkcode import CodeBlock
+"""
+A really simple test file for the most important features I need to test
+"""
 
-print()
+import unittest
+from tkcode import CodeBlock
 
 class TestCodeBlock(unittest.TestCase):
     def test_codeblock_init(self):

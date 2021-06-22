@@ -159,7 +159,7 @@ class BaseCodeBox(tk.Text):
 
         package_path = os.path.dirname(os.path.realpath(__file__))
         
-        if highlighter in {"mariana"}: # There will be more
+        if highlighter in {"azure", "mariana", "monokai"}: # There will be more
             highlight_file = os.path.join(package_path, "schemes", highlighter + ".json")
             
         try:

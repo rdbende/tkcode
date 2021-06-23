@@ -29,7 +29,7 @@ from tkcode import CodeEditor
 
 root = tk.Tk()
 
-text = CodeEditor(root. language="kotlin")
+text = CodeEditor(root, language="kotlin")
 text.pack(expand=True, fill="both")
 
 root.mainloop()"""
@@ -37,3 +37,4 @@ root.mainloop()"""
 root.update()
 root.minsize(root.winfo_width(), root.winfo_height())
 root.mainloop()
+

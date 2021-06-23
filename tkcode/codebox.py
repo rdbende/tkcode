@@ -15,6 +15,21 @@ import json
 import os
 import warnings
 
+class TextLineNumbers(tk.Canvas):
+    def __init__(self, master, *args, **kwargs):
+        tk.Canvas.__init__(self, master, *args, **kwargs)
+        self.text_widget = args[0]
+
+    def redraw(self, *args):
+        self.delete("all")
+
+        for i in range(self.text_widget.number_of_lines):
+            dline = self.text_widget.dlineinfo(f"{i}.0")
+            if dline is None:
+                break
+            y_pos = dline[1]
+            self.create_text(2, y_pos, anchor="nw", text=i+1)
+
 class BaseCodeBox(tk.Text):
     languages = ("Ada",
                  "C",
@@ -43,28 +58,49 @@ class BaseCodeBox(tk.Text):
                  "TypeScript"
                  )
     
-    def __init__(self, master, language, highlighter, **kwargs):
-        kwargs.update({"highlightthickness": 0})
-        kwargs.update({"borderwidth": 0})
+    def __init__(self, master, language, highlighter, autofocus, **kwargs):
         kwargs.update({"wrap": "none"})
-        tab_length = kwargs.pop("tabs", "    ")
         
+        tab_length = kwargs.pop("tabs", "4ch")
+        if tab_length[len(tab_length)-2:] == "ch":
+            tab_length = int(tab_length[:len(tab_length)-2])
+        else:
+            raise ValueError(f"Invalid tab length '{tab_length}', please give it in characters, eg: '4ch'")
+            
         self.frame = ttk.Frame(master)
         tk.Text.__init__(self, self.frame, **kwargs)
         
         tk.Text.grid(self, row=0, column=0, sticky="nsew")
         
-        self.font = tkfont.Font(family="monospace", size=10)
-        tab = self.font.measure(tab_length)
+        self.font = tkfont.Font(font=kwargs.pop("font", ("monospace", 10)))
+        tab = self.font.measure(" " * tab_length)
         
         self.configure(font=self.font, tabs=tab)
         self.frame.grid_rowconfigure(0, weight=1)
         self.frame.grid_columnconfigure(0, weight=1)
-
-        self.update_highlighter(highlighter)
         
+        self._highlighter, self._language = None, None
+        
+        self.update_highlighter(highlighter)
         self.update_lexer(language)
-        self.delete("1.0", "end")
+        
+        self._orig = self._w + "_orig"
+        self.tk.call("rename", self._w, self._orig)
+        self.tk.createcommand(self._w, self._proxy)
+        
+        if autofocus:
+            self.focus()
+
+    def _proxy(self, command, *args):
+        """Thanks to Bryan Oakley on StackOverflow: https://stackoverflow.com/a/40618152/"""
+        cmd = (self._orig, command) + args
+        result = self.tk.call(cmd)
+
+        # Generate a <<TextModified>> event if the widget content was modified
+        if command in ("insert", "replace", "delete"):
+            self.event_generate("<<TextModified>>")
+
+        return result # Returns what it would actually return
 
     def insert(self, index, content):
         if len(content.splitlines()) > 1:
@@ -102,15 +138,19 @@ class BaseCodeBox(tk.Text):
             self.highlight_line(line=i)
             self.update()
             i += 1
+            
+        self.event_generate("<<AllHighlighted>>")
 
     def load_from_file(self, file_name):
         with open(file_name, "r") as file:
             self.delete("1.0", "end")
             self.insert("end", file.read())
+        self.event_generate("<<TextLoadedFromFile>>")
         
     def save_to_file(self, file_name, start="1.0", end="end-1c"):
         with open(file_name, "w") as file:
             file.write(self.get(start, end))
+        self.event_generate("<<TextSavedToFile>>")
 
     @property
     def content(self):
@@ -181,13 +221,16 @@ class BaseCodeBox(tk.Text):
             else:
                 self.tag_configure(key, **value)
 
+        if self._highlighter:
+            self.event_generate("<<HighlighterChanged>>")
+            
         self._highlighter = highlighter
+        self.highlight_all()
             
     def update_lexer(self, language=None):
         """Sets or changes the Pygments lexer"""
         if language:
-            self._language = language.lower()
-            lang = self._language
+            lang = language.lower()
         
         if lang == "ada":
             self.lexer = AdaLexer
@@ -243,18 +286,24 @@ class BaseCodeBox(tk.Text):
             self.lexer = PythonLexer # Fall back to Python
             warnings.warn(f"Bad language specifier: '{lang}', falling back to Python. See 'CodeBox.languages' for a list of supported languages.")
         
+        if self._language:
+            self.event_generate("<<LanguageChanged>>")
+        
+        self._language = lang
         self.highlight_all()
-        self.event_generate("<<CodeBoxLanguageChanged>>")
-
+    
     def __setitem__(self, key, value):
         self.configure(key=value)
 
     def __getitem__(self, key):
         return self.cget(key)
+    
+    def __str__(self):
+        return self.content
 
     def keys(self):
-        keys = tk.Text.keys()
-        keys.extend("highlighter", "language")
+        keys = tk.Text.keys(self)
+        keys.extend(["highlighter", "language"])
         return sorted(keys)
 
     def cget(self, key):

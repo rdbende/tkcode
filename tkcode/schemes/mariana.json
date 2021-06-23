@@ -5,7 +5,9 @@
     	"foreground": "#d8dee9",
     	"insertbackground": "#f9ae58",
     	"insertwidth": 1,
-    	"inactiveselectbackground": "#4e5a65"
+    	"inactiveselectbackground": "#4e5a65",
+        "highlightthickness": 0,
+        "borderwidth": 0
     },
     
     

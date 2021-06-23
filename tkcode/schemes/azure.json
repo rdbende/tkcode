@@ -3,15 +3,17 @@
     {
     	"background":"#222222",
     	"foreground": "#ffffff",
-    	"insertbackground": "#ffffff",
+    	"insertbackground": "#cccccc",
     	"insertwidth": 1,
-    	"inactiveselectbackground": "#777777"
+    	"inactiveselectbackground": "#555555",
+        "highlightthickness": 0,
+        "borderwidth": 0
     },
     
     
     "selection":
     {
-    	"background": "#777777",
+    	"background": "#555555",
     	"foreground": "#ffffff"
     },
     

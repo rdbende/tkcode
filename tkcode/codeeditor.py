@@ -18,8 +18,8 @@ import warnings
 from . import codebox
 
 class CodeEditor(codebox.BaseCodeBox):    
-    def __init__(self, master=tk._default_root, language="python", highlighter="mariana", **kwargs):
-        codebox.BaseCodeBox.__init__(self, master, language, highlighter, **kwargs)
+    def __init__(self, master=tk._default_root, language="python", highlighter="mariana", autofocus=False, **kwargs):
+        codebox.BaseCodeBox.__init__(self, master, language, highlighter, autofocus, **kwargs)
 
         self.horizontal_scroll = ttk.Scrollbar(self.frame, orient="horizontal", command=self.xview)
         self.vertical_scroll = ttk.Scrollbar(self.frame, orient="vertical", command=self.yview)
@@ -43,7 +43,9 @@ class CodeEditor(codebox.BaseCodeBox):
         code = self.clipboard_get()
 
         self.insert("end", code)
-            
+        
+        self.event_generate("<<TextPasted>>")
+        
         return "break"
     
     def select_all(self, event=None):
@@ -51,6 +53,9 @@ class CodeEditor(codebox.BaseCodeBox):
         self.tag_add("sel", "1.0", tk.END)
         self.mark_set("insert", "end")
         self.see("insert")
+        
+        self.event_generate("<<AllSelected>>")
+        
         return "break"
     
     def change_cursor_mode(self, event=None):
@@ -59,6 +64,8 @@ class CodeEditor(codebox.BaseCodeBox):
             self.config(blockcursor=False)
         else:
             self.config(blockcursor=True)
+            
+        self.event_generate("<<CursorModeChanged>>")
     
     @property
     def current_line(self) -> int:
@@ -71,9 +78,9 @@ class CodeEditor(codebox.BaseCodeBox):
         
     @property
     def current_column(self) -> int:
-        return int(self.index("insert").split(".")[0])
+        return int(self.index("insert").split(".")[1])
     
-    @current_line.setter
+    @current_column.setter
     def current_column(self, col_number):
         self.mark_set("insert", f"{self.current_line}.{col_number}")
         self.see(f"{self.current_line}.{col_number}")

@@ -18,9 +18,9 @@ import warnings
 from . import codebox
 
 class CodeBlock(codebox.BaseCodeBox):
-    def __init__(self, master=tk._default_root, language="python", highlighter="mariana", **kwargs):
+    def __init__(self, master=tk._default_root, language="python", highlighter="mariana", autofocus=False, **kwargs):
         kwargs.update({"state": "disabled"})
-        codebox.BaseCodeBox.__init__(self, master, language, highlighter, **kwargs)
+        codebox.BaseCodeBox.__init__(self, master, language, highlighter, autofocus, **kwargs)
 
     def disabler(func):
         def wrapper(self, *args, **kwargs):

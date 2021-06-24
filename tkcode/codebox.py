@@ -232,6 +232,7 @@ class BaseCodeBox(tk.Text):
         if language:
             lang = language.lower()
         
+        # I'll love the match-case statement XD
         if lang == "ada":
             self.lexer = AdaLexer
         elif lang == "c":
@@ -272,7 +273,7 @@ class BaseCodeBox(tk.Text):
             self.lexer = PhpLexer
         elif lang == "r" or lang == "erlang":
             self.lexer = ErlangLexer
-        elif lang == "python":
+        elif lang == "python" or lang == "py":
             self.lexer = PythonLexer
         elif lang == "ruby":
             self.lexer = RubyLexer

@@ -20,6 +20,8 @@ from . import codebox
 class CodeBlock(codebox.BaseCodeBox):
     def __init__(self, master=tk._default_root, language="python", highlighter="mariana", autofocus=False, **kwargs):
         kwargs.update({"state": "disabled"})
+        kwargs.pop("xscrollcommand", None)
+        kwargs.pop("yscrollcommand", None)
         codebox.BaseCodeBox.__init__(self, master, language, highlighter, autofocus, **kwargs)
 
     def disabler(func):

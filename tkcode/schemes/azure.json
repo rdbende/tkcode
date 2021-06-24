@@ -1,9 +1,9 @@
 {
     "general":
     {
-    	"background":"#222222",
+    	"background":"#333333",
     	"foreground": "#ffffff",
-    	"insertbackground": "#cccccc",
+    	"insertbackground": "#ffbd00",
     	"insertwidth": 1,
     	"inactiveselectbackground": "#555555",
         "highlightthickness": 0,

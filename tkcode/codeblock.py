@@ -8,14 +8,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import font as tkfont
 
-from pygments import lex
-from pygments.lexers import *
-
-import json
-import os
-import warnings
-
 from . import codebox
+
 
 class CodeBlock(codebox.BaseCodeBox):
     def __init__(self, master=tk._default_root, language="python", highlighter="mariana", autofocus=False, **kwargs):
@@ -42,7 +36,7 @@ class CodeBlock(codebox.BaseCodeBox):
     @property
     def content(self):
         return self.get("1.0", "end")
-    
+
     @content.setter
     @disabler
     def content(self, new_content):

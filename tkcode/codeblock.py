@@ -12,17 +12,27 @@ from . import codebox
 
 
 class CodeBlock(codebox.BaseCodeBox):
-    def __init__(self, master=tk._default_root, language="python", highlighter="mariana", autofocus=False, **kwargs):
+    def __init__(
+        self,
+        master=tk._default_root,
+        language="python",
+        highlighter="mariana",
+        autofocus=False,
+        **kwargs
+    ):
         kwargs.update({"state": "disabled"})
         kwargs.pop("xscrollcommand", None)
         kwargs.pop("yscrollcommand", None)
-        codebox.BaseCodeBox.__init__(self, master, language, highlighter, autofocus, **kwargs)
+        codebox.BaseCodeBox.__init__(
+            self, master, language, highlighter, autofocus, **kwargs
+        )
 
     def disabler(func):
         def wrapper(self, *args, **kwargs):
             codebox.BaseCodeBox.config(self, state="normal")
             func(self, *args, **kwargs)
             codebox.BaseCodeBox.config(self, state="disabled")
+
         return wrapper
 
     @disabler
@@ -42,4 +52,3 @@ class CodeBlock(codebox.BaseCodeBox):
     def content(self, new_content):
         self.delete("1.0", "end")
         self.insert("end", new_content)
-

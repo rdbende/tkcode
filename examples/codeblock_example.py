@@ -10,13 +10,11 @@ style = ttk.Style()
 
 card_im = tk.PhotoImage(file="code_card.png")
 
-style.layout('Card', [
-    ('Card.field', {'children': [
-        ('Card.padding', {'expand': 1})
-        ]})
-    ])
+style.layout("Card", [("Card.field", {"children": [("Card.padding", {"expand": 1})]})])
 
-style.element_create("Card.field", "image", card_im, border=20, padding=4, sticky="nsew")
+style.element_create(
+    "Card.field", "image", card_im, border=20, padding=4, sticky="nsew"
+)
 
 main_frame = ttk.Frame(root, padding=15, style="Card")
 main_frame.pack(fill="both", expand=True, padx=20, pady=20)
@@ -37,4 +35,3 @@ root.mainloop()"""
 root.update()
 root.minsize(root.winfo_width(), root.winfo_height())
 root.mainloop()
-

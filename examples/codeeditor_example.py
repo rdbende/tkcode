@@ -30,8 +30,17 @@ tab_1 = ttk.Frame(notebook)
 notebook.add(tab_1, text="hello.cpp")
 notebook.pack(fill="both", expand=True)
 
-code_editor = CodeEditor(tab_1, width=40, height=10, language="c++",
-                         autofocus=True, blockcursor=True, insertofftime=0, padx=10, pady=10)
+code_editor = CodeEditor(
+    tab_1,
+    width=40,
+    height=10,
+    language="c++",
+    autofocus=True,
+    blockcursor=True,
+    insertofftime=0,
+    padx=10,
+    pady=10,
+)
 
 code_editor.pack(fill="both", expand=True)
 
@@ -47,4 +56,3 @@ int main() {
 root.update()
 root.minsize(root.winfo_width(), root.winfo_height())
 root.mainloop()
-

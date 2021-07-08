@@ -1,5 +1,5 @@
 # tkcode
-Code block and code editor widget for tkinter with syntax highlighting with Pygments for many languages, plenty of properties, for easier handling, built-in read from or save to file, and many more...
+Code block and code editor widget for tkinter with syntax highlighting with Pygments for many languages, plenty of property getters and setters, for easier handling, built-in read from or save to file, and many more...
 
 
 ### Install

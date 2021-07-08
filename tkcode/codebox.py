@@ -17,43 +17,46 @@ import warnings
 
 
 class BaseCodeBox(tk.Text):
-    languages = ("Ada",
-                 "Brainfuck",
-                 "C",
-                 "CSS",
-                 "C#",
-                 "C++",
-                 "Dart",
-                 "Delphi",
-                 "Go",
-                 "Haskell",
-                 "HTML",
-                 "Java",
-                 "JavaScript",
-                 "Kotlin",
-                 "Lisp",
-                 "Lua",
-                 "Matlab",
-                 "Objective-C",
-                 "Perl",
-                 "PHP",
-                 "Python",
-                 "R",
-                 "Ruby",
-                 "Swift",
-                 "SQL",
-                 "Tcl",
-                 "TypeScript"
-                 )
+    languages = (
+        "Ada",
+        "Brainfuck",
+        "C",
+        "CSS",
+        "C#",
+        "C++",
+        "Dart",
+        "Delphi",
+        "Go",
+        "Haskell",
+        "HTML",
+        "Java",
+        "JavaScript",
+        "Kotlin",
+        "Lisp",
+        "Lua",
+        "Matlab",
+        "Objective-C",
+        "Perl",
+        "PHP",
+        "Python",
+        "R",
+        "Ruby",
+        "Swift",
+        "SQL",
+        "Tcl",
+        "TypeScript",
+    )
 
     def __init__(self, master, language, highlighter, autofocus, **kwargs):
         kwargs.update({"wrap": "none"})
 
         tab_length = kwargs.pop("tabs", "4ch")
         if tab_length[-2:] == "ch":
-            tab_length = int(tab_length[:len(tab_length)-2])
+            tab_length = int(tab_length[: len(tab_length) - 2])
         else:
-            raise ValueError(f"Invalid tab length '{tab_length}', please give it in characters, eg: '4ch'")
+            raise ValueError(
+                f"Invalid tab length '{tab_length}', please give it in characters, eg: '4ch'"
+            )
 
         self.frame = ttk.Frame(master)
         tk.Text.__init__(self, self.frame, **kwargs)
@@ -92,7 +95,9 @@ class BaseCodeBox(tk.Text):
 
     def insert(self, index, content):
         # TODO: imo this method is super hacky, there should be a better solution
-        line_no = int(self.index(index).split(".")[0])  # Important! We don't want a text index "end.end"
+        line_no = int(
+            self.index(index).split(".")[0]
+        )  # Important! We don't want a text index "end.end"
 
         if len(content.splitlines()) > 1:
             for line in content.splitlines():
@@ -141,7 +146,9 @@ class BaseCodeBox(tk.Text):
             self.insert("end", file.read())
         self.event_generate("<<TextLoadedFromFile>>")
 
-    def save_to_file(self, file_name: str, start: str = "1.0", end: str = "end - 1 char"):
+    def save_to_file(
+        self, file_name: str, start: str = "1.0", end: str = "end - 1 char"
+    ):
         with open(file_name, "w") as file:
             file.write(self.get(start, end))
         self.event_generate("<<TextSavedToFile>>")
@@ -206,12 +213,16 @@ class BaseCodeBox(tk.Text):
         package_path = os.path.dirname(os.path.realpath(__file__))
 
         if highlighter in {"azure", "mariana", "monokai"}:  # There will be more
-            highlight_file = os.path.join(package_path, "schemes", highlighter + ".json")
+            highlight_file = os.path.join(
+                package_path, "schemes", highlighter + ".json"
+            )
         try:
             with open(highlight_file) as file:
                 self.configuration = json.load(file)
         except FileNotFoundError:
-            raise FileNotFoundError(f"Style configuration file not found: '{highlight_file}'")
+            raise FileNotFoundError(
+                f"Style configuration file not found: '{highlight_file}'"
+            )
 
         general_props = self.configuration.pop("general")
         selection_props = self.configuration.pop("selection")
@@ -293,10 +304,15 @@ class BaseCodeBox(tk.Text):
         elif lang == "typescript" or lang == "ts":
             self._lexer = TypeScriptLexer
         else:
-            warnings.warn(f"""The lexer '{self._lexer.__name__}', is not supported.
+            warnings.warn(
+                f"""The lexer '{self._lexer.__name__}', is not supported.
 Although you can use it, there may be problems with syntax highlighting.
 You can open an issue or PR in the original repository to implement
-it: https://github.com/rdbende/tkcode""".replace('\n', ' '), stacklevel=3)
+it: https://github.com/rdbende/tkcode""".replace(
+                    "\n", " "
+                ),
+                stacklevel=3,
+            )
 
         if self._language:  # Don't generate event on init
             self.event_generate("<<LanguageChanged>>")
@@ -326,7 +342,9 @@ it: https://github.com/rdbende/tkcode""".replace('\n', ' '), stacklevel=3)
         else:
             return tk.Text.cget(self, key)
 
-    def configure(self, *args, **kwargs) -> None:  # The autofocus arg doesn't makes sense here
+    def configure(
+        self, *args, **kwargs
+    ) -> None:  # The autofocus arg doesn't makes sense here
         lang = kwargs.pop("language", None)
         highlighter = kwargs.pop("highlighter", None)
         if lang:
@@ -345,4 +363,3 @@ it: https://github.com/rdbende/tkcode""".replace('\n', ' '), stacklevel=3)
 
     def place(self, *args, **kwargs):
         self.frame.place(*args, **kwargs)
-

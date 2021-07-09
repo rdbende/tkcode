@@ -59,7 +59,14 @@ class BaseCodeBox(tk.Text):
         "YAML",
     )
 
-    def __init__(self, master, language, highlighter, autofocus, **kwargs):
+    def __init__(
+        self,
+        master: tk.Misc,
+        language: str,
+        highlighter: str,
+        autofocus: bool,
+        **kwargs,
+    ) -> None:
         kwargs.update({"wrap": "none"})
 
         tab_length = kwargs.pop("tabs", "4ch")
@@ -105,7 +112,7 @@ class BaseCodeBox(tk.Text):
 
         return result  # Returns what it would actually return
 
-    def insert(self, index, content):
+    def insert(self, index: str, content: str):
         # TODO: imo this method is super hacky, there should be a better solution
         line_no = int(
             self.index(index).split(".")[0]
@@ -391,6 +398,3 @@ class BaseCodeBox(tk.Text):
 
     def place(self, *args, **kwargs):
         self.frame.place(*args, **kwargs)
-
-
-print(len(BaseCodeBox.languages))

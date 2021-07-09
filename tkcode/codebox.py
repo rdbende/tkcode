@@ -18,25 +18,36 @@ from pygments.lexers import *
 class BaseCodeBox(tk.Text):
     languages = (
         "Ada",
+        "Bash",
+        "Batch",
         "Brainfuck",
         "C",
+        "CMake",
+        "CoffeeScript",
         "CSS",
         "C#",
         "C++",
         "Dart",
         "Delphi",
+        "Dockerfile",
+        "Fortran",
         "Go",
+        "Groovy",
         "Haskell",
         "HTML",
         "Java",
         "JavaScript",
+        "JSON",
         "Kotlin",
         "Lisp",
         "Lua",
         "Matlab",
+        "Makefile",
+        "Nasm",  # probably the most common
         "Objective-C",
         "Perl",
         "PHP",
+        "PowerShell",
         "Python",
         "R",
         "Ruby",
@@ -44,6 +55,8 @@ class BaseCodeBox(tk.Text):
         "SQL",
         "Tcl",
         "TypeScript",
+        "Vim",
+        "YAML",
     )
 
     def __init__(self, master, language, highlighter, autofocus, **kwargs):
@@ -250,10 +263,18 @@ class BaseCodeBox(tk.Text):
         # I'll love the match-case statement XD
         if lang == "ada":
             self._lexer = AdaLexer
+        elif lang == "bash":
+            self._lexer = BashLexer
+        elif lang == "batch":
+            self._lexer = BatchLexer
         elif lang == "brainfuck" or lang == "bf":
             self._lexer = BrainfuckLexer
         elif lang == "c":
             self._lexer = CLexer
+        elif lang == "cmake":
+            self._lexer = CMakeLexer
+        elif lang == "coffeescript" or lang == "coffee":
+            self._lexer = CoffeeScriptLexer
         elif lang == "css":
             self._lexer = CssLexer
         elif lang == "c sharp" or lang == "cs" or lang == "c#":
@@ -264,34 +285,48 @@ class BaseCodeBox(tk.Text):
             self._lexer = DartLexer
         elif lang == "delphi":
             self._lexer = DelphiLexer
+        elif lang == "dockerfile" or lang == "docker":
+            self._lexer = DockerLexer
+        elif lang == "fortran":
+            self._lexer = FortranLexer
+        elif lang == "go" or lang == "golang":
+            self._lexer = GoLexer
+        elif lang == "groovy":
+            self._lexer = GroovyLexer
         elif lang == "haskell":
             self._lexer = HaskellLexer
         elif lang == "html":
             self._lexer = HtmlLexer
-        elif lang == "go" or lang == "golang":
-            self._lexer = GoLexer
         elif lang == "java":
             self._lexer = JavaLexer
         elif lang == "javascript" or lang == "js":
             self._lexer = JavascriptLexer
+        elif lang == "json":
+            self._lexer = JsonLexer
         elif lang == "kotlin":
             self._lexer = KotlinLexer
         elif lang == "lisp":
             self._lexer = CommonLispLexer
         elif lang == "lua":
             self._lexer = LuaLexer
+        elif lang == "makefile":
+            self._lexer = MakefileLexer
         elif lang == "matlab":
             self._lexer = MatlabLexer
+        elif lang == "nasm":
+            self._lexer = NasmLexer
         elif lang == "objective-c" or lang == "objectivec":
             self._lexer = ObjectiveCLexer
         elif lang == "perl":
             self._lexer = PerlLexer
         elif lang == "php":
             self._lexer = PhpLexer
-        elif lang == "r" or lang == "erlang":
-            self._lexer = ErlangLexer
+        elif lang == "powershell":
+            self._lexer = PowerShellLexer
         elif lang == "python" or lang == "py":
             self._lexer = PythonLexer
+        elif lang == "r" or lang == "erlang":
+            self._lexer = ErlangLexer
         elif lang == "ruby":
             self._lexer = RubyLexer
         elif lang == "swift":
@@ -302,16 +337,10 @@ class BaseCodeBox(tk.Text):
             self._lexer = TclLexer
         elif lang == "typescript" or lang == "ts":
             self._lexer = TypeScriptLexer
-        else:
-            warnings.warn(
-                f"""The lexer '{self._lexer.__name__}', is not supported.
-Although you can use it, there may be problems with syntax highlighting.
-You can open an issue or PR in the original repository to implement
-it: https://github.com/rdbende/tkcode""".replace(
-                    "\n", " "
-                ),
-                stacklevel=3,
-            )
+        elif lang == "vim":
+            self._lexer = VimLexer
+        elif lang == "yaml":
+            self._lexer = YamlLexer
 
         if self._language:  # Don't generate event on init
             self.event_generate("<<LanguageChanged>>")
@@ -362,3 +391,6 @@ it: https://github.com/rdbende/tkcode""".replace(
 
     def place(self, *args, **kwargs):
         self.frame.place(*args, **kwargs)
+
+
+print(len(BaseCodeBox.languages))

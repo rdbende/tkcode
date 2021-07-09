@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+
 from tkcode import CodeBlock
 
 root = tk.Tk()

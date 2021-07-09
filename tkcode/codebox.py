@@ -4,16 +4,15 @@ License: GNU GPLv3
 Copyright: 2021 rdbende
 """
 
+import json
+import os
 import tkinter as tk
-from tkinter import ttk
+import warnings
 from tkinter import font as tkfont
+from tkinter import ttk
 
 import pygments
 from pygments.lexers import *
-
-import json
-import os
-import warnings
 
 
 class BaseCodeBox(tk.Text):
@@ -321,7 +320,7 @@ it: https://github.com/rdbende/tkcode""".replace(
         self.highlight_all()
 
     def __setitem__(self, key, value):
-        self.configure(key=value)
+        self.configure(**{key: value})
 
     def __getitem__(self, key: str):
         return self.cget(key)

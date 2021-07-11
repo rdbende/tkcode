@@ -4,6 +4,7 @@ import subprocess
 version = subprocess.check_output(["git", "describe", "--abbrev=0", "--tags"]).strip().decode()
 
 assert version[0] == "v"  # Something went wrong
+version = version[1:]  # remove the "v"
 
 with open("README.md", "r") as file:
     long_description = file.read()

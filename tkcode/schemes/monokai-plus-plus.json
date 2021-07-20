@@ -1,0 +1,91 @@
+{
+    "general":
+    {
+    	"background":"#1c1c1c",
+    	"foreground": "#cccccc",
+    	"insertbackground": "#f8f8f2",
+    	"insertwidth": 1,
+    	"inactiveselectbackground": "#402725",
+        "highlightthickness": 0,
+        "borderwidth": 0
+    },
+    
+    
+    "selection":
+    {
+    	"background": "#59201b",
+    	"foreground": "#f8f8f2"
+    },
+    
+
+    "syntax":
+    {
+        "Token.Text": "#f8f8f2",
+        "Token.Other": "#f8f8f2",
+        "Token.Eror": "#f92472",
+        "Token.Whitespace": "#f8f8f2",
+        "Token.Escape": "#f8f8f2",
+        
+        "Token.Keyword": "#f92672",
+        "Token.Keyword.Constant": "#ae81ff",
+        "Token.Keyword.Declaration": "#f92672",
+        "Token.Keyword.Namespace": "#f92672",
+        "Token.Keyword.Pseudo": "#f92672",
+        "Token.Keyword.Reserved": "#f92672",
+        "Token.Keyword.Type": "#2be98a",
+        "Token.Keyword.Other": "#f92672",
+        
+        "Token.Punctation": "#f92672",
+
+        "Token.Name.Attribute": "#a6e22c",
+        "Token.Name.Builtin": "#2be98a",
+        "Token.Name.Builtin.Pseudo": "#ae81ff",
+        "Token.Name.Class": "#49e0fd",
+        "Token.Name.Constant": "#ae81ff",
+        "Token.Name.Decorator": "#67d8ef",
+        "Token.Name.Entity": "#a6e22c",
+        "Token.Name.Exception": "#2be98a",
+        "Token.Name.Function": "#b0ec38",
+        "Token.Name.Function.Magic": "#b0ec38",
+        "Token.Name.Label": "#a6e22c",
+        "Token.Name.Namespace": "#f8f8f2",
+        "Token.Name.Other": "#a6e22c",
+        "Token.Name.Tag": "#f92672",
+        "Token.Name.Variable": "#fd971f",
+        "Token.Name.Variable.Class": "#a6e22c",
+        "Token.Name.Variable.Global": "#a6e22c",
+        "Token.Name.Variable.Instance": "#a6e22c",
+        "Token.Name.Variable.Magic": "#ae81ff",
+
+        "Token.Operator": "#f83535",
+        "Token.Operator.Word": "#f92472",
+        
+        "Token.Comment": "#696d70",
+        "Token.Comment.Hashbang": "#696d70",
+        "Token.Comment.Multiline": "#696d70",
+        "Token.Comment.Preproc": "#696d70",
+        "Token.Comment.Preprocfile": "#696d70",
+        "Token.Comment.Single": "#696d70",
+        "Token.Comment.Special": "#696d70",
+        
+        "Token.Literal.Number.Bin": "#ac80ff",
+        "Token.Literal.Number.Float": "#ac80ff",
+        "Token.Literal.Number.Hex": "#ac80ff",
+        "Token.Literal.Number.Integer": "#ac80ff",
+        "Token.Literal.Number.Integer.Long": "#ac80ff",
+        "Token.Literal.Number.Oct": "#ac80ff",
+        
+        "Token.Literal.String.Affix": "#e6db74",
+        "Token.Literal.String.Char": "#e6db74",
+        "Token.Literal.String.Delimeter": "#e6db74",
+        "Token.Literal.String.Doc": "#e6db74",
+        "Token.Literal.String.Double": "#e6db74",
+        "Token.Literal.String.Escape": "#e6db74",
+        "Token.Literal.String.Heredoc": "#e6db74",
+        "Token.Literal.String.Interpol": "#e6db74",
+        "Token.Literal.String.Other": "#e6db74",
+        "Token.Literal.String.Regex": "#49e0fd",
+        "Token.Literal.String.Single": "#e6db74",
+        "Token.Literal.String.Symbol": "#e6db74"
+    }
+}

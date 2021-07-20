@@ -7,9 +7,9 @@ Copyright: 2021 rdbende
 import json
 import os
 import tkinter as tk
-import warnings
 from tkinter import font as tkfont
 from tkinter import ttk
+from typing import Union
 
 import pygments
 from pygments.lexers import *
@@ -71,7 +71,7 @@ class BaseCodeBox(tk.Text):
 
         tab_length = kwargs.pop("tabs", "4ch")
         if tab_length[-2:] == "ch":
-            tab_length = int(tab_length[: len(tab_length) - 2])
+            tab_length = int(tab_length[:-2])
         else:
             raise ValueError(
                 f"Invalid tab length '{tab_length}', please give it in characters, eg: '4ch'"
@@ -107,16 +107,19 @@ class BaseCodeBox(tk.Text):
         result = self.tk.call(cmd)
 
         # Generate a <<ContentChanged>> event if the widget content was modified
-        if command in ("insert", "replace", "delete"):
+
+        if command in {"insert", "replace", "delete"}:
             self.event_generate("<<ContentChanged>>")
 
         return result  # Returns what it would actually return
 
     def insert(self, index: str, content: str):
-        # TODO: imo this method is super hacky, there should be a better solution
+        # FIXME: imo this method is super hacky, there should be a better solution
         line_no = int(
-            self.index(index).split(".")[0]
-        )  # Important! We don't want a text index "end.end"
+            self.index(index).split(".")[
+                0
+            ]  # Important! We don't want a text index "end.end"
+        )
 
         if len(content.splitlines()) > 1:
             for line in content.splitlines():
@@ -148,7 +151,7 @@ class BaseCodeBox(tk.Text):
             self.tag_add(str(token), start, end)
             start = end
 
-    def highlight_all(self, event: tk.Event = None) -> None:
+    def highlight_all(self, *_) -> None:
         """Loops through the entire content and highlights it"""
         for tag in self.tag_names(index=None):
             if tag != "sel":
@@ -179,10 +182,13 @@ class BaseCodeBox(tk.Text):
     @content.setter
     def content(self, new_content: str) -> None:
         self.delete("1.0", "end")
-        self.insert(self.index("insert"), new_content)
+        # FIXME: if index is `end` than both the code_editor
+        # and the code_block's last line gets highlighted, but if it's 1.0,
+        # than just the code_block, and code_editor's last line stays white
+        self.insert("end", new_content)
 
     @property
-    def language(self) -> str:
+    def language(self) -> Union[str, None]:
         return self._language
 
     @language.setter
@@ -224,14 +230,39 @@ class BaseCodeBox(tk.Text):
 
     @property
     def is_empty(self) -> bool:
-        return True if self.get("1.0", "end") == "\n" else False
+        return self.get("1.0", "end") == "\n"
+
+    def _generate_font_list(self, input_dict: dict) -> list:
+        font_dict = {"-family": self.font_family, "-size": self.font_size}
+
+        for style_key, style_value in input_dict.items():
+            if style_key == "family":
+                font_dict["-family"] = style_value
+            elif style_key == "size":
+                font_dict["-size"] = style_value
+            elif style_key == "bold":
+                font_dict["-weight"] = "bold" if style_value else "normal"
+            elif style_key == "italic":
+                font_dict["-slant"] = "italic" if style_value else "roman"
+            elif style_key == "underline":
+                font_dict["-underline"] = style_value
+            elif style_key == "strikethrough":
+                font_dict["-overstrike"] = style_value
+
+        font_list = []
+        for x, y in zip(font_dict.keys(), font_dict.values()):
+            font_list.extend([x, y])
+
+        return font_list
 
     def update_highlighter(self, highlighter: str) -> None:
         """Sets or changes the highlighter configuration"""
         highlight_file = highlighter
         package_path = os.path.dirname(os.path.realpath(__file__))
 
-        if highlighter in {"azure", "mariana", "monokai"}:  # There will be more
+        if highlighter in [
+            x.split(".")[0] for x in os.listdir(os.path.join(package_path, "schemes"))
+        ]:
             highlight_file = os.path.join(
                 package_path, "schemes", highlighter + ".json"
             )
@@ -251,9 +282,11 @@ class BaseCodeBox(tk.Text):
         self.tag_configure("sel", **selection_props)
 
         for key, value in syntax_props.items():
-            if type(value) == str:
+            if isinstance(value, str):
                 self.tag_configure(key, foreground=value)
-            else:  # TODO: Implement font properties
+            else:
+                if "font" in value:
+                    value["font"] = self._generate_font_list(value["font"])
                 self.tag_configure(key, **value)
 
         if self._highlighter:  # Don't generate event on init
@@ -262,41 +295,49 @@ class BaseCodeBox(tk.Text):
         self._highlighter = highlighter
         self.highlight_all()
 
-    def update_lexer(self, language: str = None) -> None:
+    def update_lexer(self, language: Union[str, None] = None) -> None:
         """Sets or changes the Pygments lexer"""
-        if language:
-            lang = language.lower()
+        if not language:
+            return
 
-        # I'll love the match-case statement XD
+        self._set_lexer(language.lower())
+
+        if self._language:  # Don't generate event on init
+            self.event_generate("<<LanguageChanged>>")
+
+        self._language = language
+        self.highlight_all()
+
+    def _set_lexer(self, lang):
         if lang == "ada":
             self._lexer = AdaLexer
         elif lang == "bash":
             self._lexer = BashLexer
         elif lang == "batch":
             self._lexer = BatchLexer
-        elif lang == "brainfuck" or lang == "bf":
+        elif lang in ["brainfuck", "bf"]:
             self._lexer = BrainfuckLexer
         elif lang == "c":
             self._lexer = CLexer
         elif lang == "cmake":
             self._lexer = CMakeLexer
-        elif lang == "coffeescript" or lang == "coffee":
+        elif lang in ["coffeescript", "coffee"]:
             self._lexer = CoffeeScriptLexer
         elif lang == "css":
             self._lexer = CssLexer
-        elif lang == "c sharp" or lang == "cs" or lang == "c#":
+        elif lang in ["c sharp", "cs", "c#"]:
             self._lexer = CSharpLexer
-        elif lang == "c plus plus" or lang == "cpp" or lang == "c++":
+        elif lang in ["c plus plus", "cpp", "c++"]:
             self._lexer = CppLexer
         elif lang == "dart":
             self._lexer = DartLexer
         elif lang == "delphi":
             self._lexer = DelphiLexer
-        elif lang == "dockerfile" or lang == "docker":
+        elif lang in ["dockerfile", "docker"]:
             self._lexer = DockerLexer
         elif lang == "fortran":
             self._lexer = FortranLexer
-        elif lang == "go" or lang == "golang":
+        elif lang in ["go", "golang"]:
             self._lexer = GoLexer
         elif lang == "groovy":
             self._lexer = GroovyLexer
@@ -306,7 +347,7 @@ class BaseCodeBox(tk.Text):
             self._lexer = HtmlLexer
         elif lang == "java":
             self._lexer = JavaLexer
-        elif lang == "javascript" or lang == "js":
+        elif lang in ["javascript", "js"]:
             self._lexer = JavascriptLexer
         elif lang == "json":
             self._lexer = JsonLexer
@@ -322,7 +363,7 @@ class BaseCodeBox(tk.Text):
             self._lexer = MatlabLexer
         elif lang == "nasm":
             self._lexer = NasmLexer
-        elif lang == "objective-c" or lang == "objectivec":
+        elif lang in ["objective-c", "objectivec"]:
             self._lexer = ObjectiveCLexer
         elif lang == "perl":
             self._lexer = PerlLexer
@@ -330,9 +371,9 @@ class BaseCodeBox(tk.Text):
             self._lexer = PhpLexer
         elif lang == "powershell":
             self._lexer = PowerShellLexer
-        elif lang == "python" or lang == "py":
+        elif lang in ["python", "py"]:
             self._lexer = PythonLexer
-        elif lang == "r" or lang == "erlang":
+        elif lang in ["r", "erlang"]:
             self._lexer = ErlangLexer
         elif lang == "ruby":
             self._lexer = RubyLexer
@@ -342,18 +383,12 @@ class BaseCodeBox(tk.Text):
             self._lexer = SqlLexer
         elif lang == "tcl":
             self._lexer = TclLexer
-        elif lang == "typescript" or lang == "ts":
+        elif lang in ["typescript", "ts"]:
             self._lexer = TypeScriptLexer
         elif lang == "vim":
             self._lexer = VimLexer
         elif lang == "yaml":
             self._lexer = YamlLexer
-
-        if self._language:  # Don't generate event on init
-            self.event_generate("<<LanguageChanged>>")
-
-        self._language = language
-        self.highlight_all()
 
     def __setitem__(self, key, value):
         self.configure(**{key: value})
@@ -363,6 +398,14 @@ class BaseCodeBox(tk.Text):
 
     def __str__(self) -> str:
         return self.content
+
+    def __repr__(self) -> str:
+        result = f"{type(self).__module__}.{type(self).__name__} widget"
+
+        if not self.winfo_exists():
+            return f"<destroyed {result}>"
+
+        return f"<{result}, color scheme: {self._highlighter!r}, lexer: {self._lexer.__name__}>"
 
     def keys(self) -> list:
         keys = tk.Text.keys(self)
@@ -377,16 +420,12 @@ class BaseCodeBox(tk.Text):
         else:
             return tk.Text.cget(self, key)
 
-    def configure(
-        self, *args, **kwargs
-    ) -> None:  # The autofocus arg doesn't makes sense here
-        lang = kwargs.pop("language", None)
-        highlighter = kwargs.pop("highlighter", None)
-        if lang:
+    def configure(self, **kwargs) -> None:
+        if kwargs.pop("language", None):
             self.update_lexer(lang)
-        if highlighter:
+        if kwargs.pop("highlighter", None):
             self.update_highlighter(highlighter)
-        tk.Text.configure(self, *args, **kwargs)
+        tk.Text.configure(self, **kwargs)
 
     config = configure
 
@@ -398,3 +437,10 @@ class BaseCodeBox(tk.Text):
 
     def place(self, *args, **kwargs):
         self.frame.place(*args, **kwargs)
+
+    def destroy(self):
+        """Destroys this widget"""
+        # Explicit tcl calls are needed to avoid recursion error
+        for i in self.frame.children.values():
+            self.tk.call("destroy", i._w)
+        self.tk.call("destroy", self.frame._w)

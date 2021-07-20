@@ -13,7 +13,7 @@ from . import codebox
 class CodeEditor(codebox.BaseCodeBox):
     def __init__(
         self,
-        master=tk._default_root,
+        master: tk.Misc,
         language="python",
         highlighter="mariana",
         autofocus=False,
@@ -51,7 +51,7 @@ class CodeEditor(codebox.BaseCodeBox):
         except tk.TclError:
             pass
 
-    def paste(self, event: tk.Event = None):
+    def paste(self, *_):
         """Handles text pasting"""
         if self.tag_ranges("sel"):
             sel_start = self.index("sel.first")
@@ -63,7 +63,7 @@ class CodeEditor(codebox.BaseCodeBox):
         self.event_generate("<<TextPasted>>")
         return "break"
 
-    def select_all(self, event: tk.Event = None):
+    def select_all(self, *_):
         """Selects everything"""
         self.mark_set("insert", "end")
         self.tag_add("sel", "1.0", "end")
@@ -72,16 +72,20 @@ class CodeEditor(codebox.BaseCodeBox):
         self.event_generate("<<AllSelected>>")
         return "break"
 
-    def change_cursor_mode(self, event: tk.Event = None):
+    def change_cursor_mode(self, *_):
         """
         Toggles between thin line and block cursor.
         Can be a little bit confusing, that some program,
         like Vim uses the insert key to switch between the insert
         and owerwrite mode, and others, like Sublime,
-        or Gedit uses it to change the cursor appearance
+        Gedit, KWrite or even Gtk widgets uses it to change the cursor appearance
         """
-        self.configure(blockcursor=False if self["blockcursor"] else True)
+        self.configure(
+            blockcursor=not self["blockcursor"],
+            insertwidth=1 if self["blockcursor"] else 0,
+        )
         self.event_generate("<<CursorModeChanged>>")
+        return "break"
 
     @property
     def current_line(self) -> int:
@@ -106,7 +110,7 @@ class CodeEditor(codebox.BaseCodeBox):
         return str(self.index("insert"))
 
     @current_pos.setter
-    def current_pos(self, position: str) -> str:
+    def current_pos(self, position: str) -> None:
         self.mark_set("insert", position)
         self.see(position)
 

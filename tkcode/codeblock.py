@@ -5,8 +5,6 @@ Copyright: 2021 rdbende
 """
 
 import tkinter as tk
-from tkinter import font as tkfont
-from tkinter import ttk
 
 from . import codebox
 
@@ -14,7 +12,7 @@ from . import codebox
 class CodeBlock(codebox.BaseCodeBox):
     def __init__(
         self,
-        master=tk._default_root,
+        master: tk.Misc,
         language="python",
         highlighter="mariana",
         autofocus=False,

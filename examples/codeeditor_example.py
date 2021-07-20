@@ -1,3 +1,9 @@
+"""
+Author: rdbende
+License: GNU GPLv3
+Copyright: 2021 rdbende
+"""
+
 import tkinter as tk
 from tkinter import ttk
 from tkcode import CodeEditor
@@ -35,6 +41,7 @@ code_editor = CodeEditor(
     width=40,
     height=10,
     language="c++",
+    highlighter="dracula",
     autofocus=True,
     blockcursor=True,
     insertofftime=0,
@@ -46,7 +53,6 @@ code_editor.pack(fill="both", expand=True)
 
 code_editor.content = """#include <iostream>
 using namespace std;
-
 int main() {
 \tcout << "Hello World!" << endl;
 \treturn 0;

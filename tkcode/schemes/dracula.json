@@ -39,9 +39,18 @@
 
         "Token.Name.Attribute": "#50fa7b",
 
-        "Token.Name.Builtin": "#8be9fd",
-        "Token.Name.Builtin.Pseudo": "#ffb86c",
-        "Token.Name.Class": "#8be9fd",
+        "Token.Name.Builtin.Pseudo": {
+            "foreground": "#ffb86c",
+            "font": {
+                "bold": true
+            }
+        },
+        "Token.Name.Class": {
+            "foreground": "#8be9fd",
+            "font": {
+                "underline": true
+            }
+        },
         "Token.Name.Constant": "#bd93f9",
         "Token.Name.Decorator": "#8be9fd",
         "Token.Name.Entity": "#50fa7b",

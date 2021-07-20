@@ -1,3 +1,9 @@
+"""
+Author: rdbende
+License: GNU GPLv3
+Copyright: 2021 rdbende
+"""
+
 import tkinter as tk
 from tkinter import ttk
 
@@ -20,7 +26,7 @@ style.element_create(
 main_frame = ttk.Frame(root, padding=15, style="Card")
 main_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-code_block = CodeBlock(main_frame, width=42, height=9)
+code_block = CodeBlock(main_frame, width=42, height=9, highlighter="mariana")
 code_block.pack(expand=True, fill="both")
 
 code_block.content = """import tkinter as tk

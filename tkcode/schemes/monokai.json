@@ -39,7 +39,12 @@
 
         "Token.Name.Attribute": "#a6e22c",
         "Token.Name.Builtin": "#67d8ef",
-        "Token.Name.Builtin.Pseudo": "#fd9621",
+        "Token.Name.Builtin.Pseudo": {
+            "foreground": "#fd9621",
+            "font": {
+                "bold": true
+            }
+        },
         "Token.Name.Class": "#a6e22c",
         "Token.Name.Constant": "#f8f8f2",
         "Token.Name.Decorator": "#67d8ef",

@@ -1,7 +1,12 @@
-from setuptools import setup
 import subprocess
 
-version = subprocess.check_output(["git", "describe", "--abbrev=0", "--tags"]).strip().decode()
+from setuptools import setup
+
+version = (
+    subprocess.check_output(["git", "describe", "--abbrev=0", "--tags"])
+    .strip()
+    .decode()
+)
 
 assert version[0] == "v"  # Something went wrong
 version = version[1:]  # remove the "v"
@@ -18,8 +23,8 @@ setup(
     url="https://github.com/rdbende/tkcode",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=['pygments'],
-    python_requires='>=3.6',
+    install_requires=["pygments"],
+    python_requires=">=3.6",
     license="MIT license",
     classifiers=[
         "Programming Language :: Python :: 3.6",

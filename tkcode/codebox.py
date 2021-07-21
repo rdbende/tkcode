@@ -421,9 +421,11 @@ class BaseCodeBox(tk.Text):
             return tk.Text.cget(self, key)
 
     def configure(self, **kwargs) -> None:
-        if kwargs.pop("language", None):
+        lang = kwargs.pop("language", None)
+        highlighter = kwargs.pop("highlighter", None)
+        if lang:
             self.update_lexer(lang)
-        if kwargs.pop("highlighter", None):
+        if highlighter:
             self.update_highlighter(highlighter)
         tk.Text.configure(self, **kwargs)
 

@@ -35,7 +35,7 @@
         "Token.Keyword.Type": "#c695c6",
         "Token.Keyword.Other": "#c695c6",
         
-        "Token.Punctation": "#5fb4b4",
+        "Token.Punctuation": "#5fb4b4",
 
         "Token.Name.Attribute": "#c695c6",
         "Token.Name.Builtin": "#6699cc",

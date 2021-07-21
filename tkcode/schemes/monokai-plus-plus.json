@@ -35,7 +35,7 @@
         "Token.Keyword.Type": "#2be98a",
         "Token.Keyword.Other": "#f92672",
         
-        "Token.Punctation": "#f92672",
+        "Token.Punctuation": "#f92672",
 
         "Token.Name.Attribute": "#a6e22c",
         "Token.Name.Builtin": "#2be98a",

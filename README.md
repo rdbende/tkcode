@@ -1,7 +1,7 @@
 # tkcode
 Code block and code editor widget for tkinter with syntax highlighting with Pygments for many languages, plenty of property getters and setters, for easier handling, built-in read from or save to file, and many more...
 
-[![Upload tkcode to Pypi](https://github.com/rdbende/tkcode/actions/workflows/python-publish.yml/badge.svg)](https://github.com/rdbende/tkcode/actions/workflows/python-publish.yml)
+[![Pypi upload status](https://github.com/rdbende/tkcode/actions/workflows/python-publish.yml/badge.svg)](https://github.com/rdbende/tkcode/actions/workflows/python-publish.yml)
 
 
 ### Install
@@ -16,5 +16,6 @@ pip install tkcode
 
 ### Screenshots
 
-![image](https://user-images.githubusercontent.com/77941087/123085590-b1afd800-d422-11eb-9c78-e929e202c53f.png)
-![image](https://user-images.githubusercontent.com/77941087/123086076-49adc180-d423-11eb-9132-c17de1b05516.png)
+![CodeBlock](https://user-images.githubusercontent.com/77941087/126519716-e505d82f-6b33-4648-b7d5-3367f3cd5c9c.png)
+![CodeEditor](https://user-images.githubusercontent.com/77941087/126519727-6635ccb6-6592-4b80-9e9c-98bcb866e7f5.png)
+

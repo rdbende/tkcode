@@ -1,0 +1,90 @@
+{
+	"general":
+	{
+		"background":"#0a0e14",
+		"foreground": "#b3b1ad",
+		"insertbackground": "#b3b1ad",
+		"insertwidth": 1,
+		"inactiveselectbackground": "#1b2733",
+	  "highlightthickness": 0,
+	  "borderwidth": 0
+	},
+	
+	
+	"selection":
+	{
+		"background": "#e6b450"
+	},
+	
+
+	"syntax":
+	{
+		"Token.Text": "#b3b1ad",
+		"Token.Other": "#b3b1ad",
+		"Token.Eror": "#ff3333",
+		"Token.Whitespace": "#eee",
+		"Token.Escape": "#b3b1ad",
+		
+		"Token.Keyword": "#ff7700",
+		"Token.Keyword.Constant": "#ff7700",
+		"Token.Keyword.Declaration": "#ff7700",
+		"Token.Keyword.Namespace": "#ff7700",
+		"Token.Keyword.Pseudo": "#ff7700",
+		"Token.Keyword.Reserved": "#ff7700",
+		"Token.Keyword.Type": "#ff7700",
+		"Token.Keyword.Other": "#ff7700",
+
+		"Token.Punctuation": "#b3b1ad",
+
+		"Token.Name.Attribute": "#ff8f40",
+		"Token.Name.Builtin": "#e6b450",
+		"Token.Name.Builtin.Pseudo": "#e6b450",
+		"Token.Name.Class": "#ff8f40",
+		"Token.Name.Constant": "#ffee99",
+		"Token.Name.Decorator": "#e6b673",
+		"Token.Name.Entity": "#ff8f40",
+		"Token.Name.Exception": "#ff8f40",
+		"Token.Name.Function": "#ffb454",
+		"Token.Name.Function.Magic": "#ff8f40",
+		"Token.Name.Label": "#ff8f40",
+		"Token.Name.Namespace": "#ff8f40",
+		"Token.Name.Other": "#ff8f40",
+		"Token.Name.Tag": "#ff8f40",
+		"Token.Name.Variable": "#ff8f40",
+		"Token.Name.Variable.Class": "#ff8f40",
+		"Token.Name.Variable.Global": "#ff8f40",
+		"Token.Name.Variable.Instance": "#ff8f40",
+		"Token.Name.Variable.Magic": "#ff8f40",
+
+		"Token.Operator": "#f29668",
+		"Token.Operator.Word": "#f29668",
+		
+		"Token.Comment": "#626a73",
+		"Token.Comment.Hashbang": "#626a73",
+		"Token.Comment.Multiline": "#626a73",
+		"Token.Comment.Preproc": "#626a73",
+		"Token.Comment.Preprocfile": "#626a73",
+		"Token.Comment.Single": "#626a73",
+		"Token.Comment.Special": "#626a73",
+		
+		"Token.Literal.Number.Bin": "#e6b450",
+		"Token.Literal.Number.Float": "#e6b450",
+		"Token.Literal.Number.Hex": "#e6b450",
+		"Token.Literal.Number.Integer": "#e6b450",
+		"Token.Literal.Number.Integer.Long": "#e6b450",
+		"Token.Literal.Number.Oct": "#e6b450",
+
+		"Token.Literal.String.Affix": "#c2d94c",
+		"Token.Literal.String.Char": "#95e6cb",
+		"Token.Literal.String.Delimeter": "#c2d94c",
+		"Token.Literal.String.Doc": "#c2d94c",
+		"Token.Literal.String.Double": "#c2d94c",
+		"Token.Literal.String.Escape": "#c2d94c",
+		"Token.Literal.String.Heredoc": "#c2d94c",
+		"Token.Literal.String.Interpol": "#c2d94c",
+		"Token.Literal.String.Other": "#95e6cb",
+		"Token.Literal.String.Regex": "#95e6cb",
+		"Token.Literal.String.Single": "#c2d94c",
+		"Token.Literal.String.Symbol": "#c2d94c"
+	}
+}

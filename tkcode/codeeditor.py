@@ -42,7 +42,7 @@ class CodeEditor(codebox.BaseCodeBox):
             "Command" if self.tk.call("tk", "windowingsystem") == "aqua" else "Control"
         )
 
-        self.bind("<KeyRelease>", self.highlight_line, add=True)
+        self.bind("<Key>", self.highlight_line, add=True)
         self.bind("<<Paste>>", self.paste, add=True)
         self.bind(f"<{self.ctrl_cmd_key}-a>", self.select_all)
         try:

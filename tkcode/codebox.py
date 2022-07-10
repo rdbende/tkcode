@@ -20,7 +20,6 @@ class BaseCodeBox(tk.Text):
         "Ada",
         "Bash",
         "Batch",
-        "Brainfuck",
         "C",
         "CMake",
         "CoffeeScript",
@@ -135,6 +134,9 @@ class BaseCodeBox(tk.Text):
 
     def highlight_line(self, event: tk.Event = None, line: int = None) -> None:
         """Highlights the specified or the current line"""
+        if event is not None:
+            typed_char = event.char
+            self.insert("insert", typed_char)
         if line is None:
             line = int(self.index("insert").split(".")[0])
         line_text = self.get(f"{line}.0", f"{line}.end")
@@ -150,6 +152,7 @@ class BaseCodeBox(tk.Text):
             end = f"{start.split('.')[0]}.{int(start.split('.')[1]) + len(content)}"
             self.tag_add(str(token), start, end)
             start = end
+        return "break"
 
     def highlight_all(self, *_) -> None:
         """Loops through the entire content and highlights it"""
@@ -268,7 +271,7 @@ class BaseCodeBox(tk.Text):
             )
         try:
             with open(highlight_file) as file:
-                self.configuration = json.load(file)
+                self.configuration = json.loads(file.read())
         except FileNotFoundError:
             raise FileNotFoundError(
                 f"Style configuration file not found: '{highlight_file}'"
